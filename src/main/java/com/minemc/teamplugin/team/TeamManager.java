@@ -663,6 +663,76 @@ public class TeamManager {
         player.openInventory(gui);
     }
 
+    /**
+     * Open a paginated 54-slot GUI showing online players for fast inviting.
+     */
+    public void openInviteGUI(Player leader, int page) {
+        Team team = getTeam(leader);
+        if (team == null || !team.isLeader(leader.getUniqueId())) return;
+
+        // Gather eligible players: online, not in any team
+        List<Player> eligible = new ArrayList<>();
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if (!p.getUniqueId().equals(leader.getUniqueId())
+                    && getTeam(p) == null
+                    && !pendingInvites.containsKey(p.getUniqueId())) {
+                eligible.add(p);
+            }
+        }
+
+        int perPage = 45; // rows 0-4
+        int totalPages = Math.max(1, (eligible.size() + perPage - 1) / perPage);
+        if (page < 0) page = 0;
+        if (page >= totalPages) page = totalPages - 1;
+
+        int start = page * perPage;
+        int end = Math.min(start + perPage, eligible.size());
+        List<Player> pagePlayers = eligible.subList(start, end);
+
+        Inventory gui = Bukkit.createInventory(null, 54,
+                "§8邀请玩家 §7(第" + (page + 1) + "/" + totalPages + "页)");
+
+        // Fill player heads
+        int slot = 0;
+        for (Player p : pagePlayers) {
+            ItemStack head = new ItemStack(Material.PLAYER_HEAD);
+            SkullMeta meta = (SkullMeta) head.getItemMeta();
+            if (meta != null) {
+                meta.setOwningPlayer(p);
+                meta.setDisplayName(colorize("&f" + p.getName()));
+                List<String> lore = new ArrayList<>();
+                lore.add(colorize("&7生命: &c" + String.format("%.0f", p.getHealth())
+                        + "&7/&c" + String.format("%.0f", p.getMaxHealth())));
+                lore.add(colorize("&7点击邀请该玩家加入队伍"));
+                meta.setLore(lore);
+                head.setItemMeta(meta);
+            }
+            gui.setItem(slot++, head);
+        }
+
+        // Navigation row (slots 45-53)
+        if (page > 0) {
+            gui.setItem(45, createMenuItem(Material.ARROW,
+                    "&a&l◀ 上一页",
+                    "&7第 " + page + "/" + totalPages + " 页"));
+        }
+        // Page indicator
+        gui.setItem(48, createMenuItem(Material.PAPER,
+                "&b&l第 " + (page + 1) + " / " + totalPages + " 页",
+                "&7共 " + eligible.size() + " 名可邀请玩家"));
+        // Back button
+        gui.setItem(49, createMenuItem(Material.BARRIER,
+                "&c&l返回队伍界面",
+                "&7点击返回队伍管理"));
+        if (page < totalPages - 1) {
+            gui.setItem(53, createMenuItem(Material.ARROW,
+                    "&a&l下一页 ▶",
+                    "&7第 " + (page + 2) + "/" + totalPages + " 页"));
+        }
+
+        leader.openInventory(gui);
+    }
+
     // ==================== PvP Check ====================
 
     /**

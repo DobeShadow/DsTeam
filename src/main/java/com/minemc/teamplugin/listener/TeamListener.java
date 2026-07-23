@@ -96,8 +96,7 @@ public class TeamListener implements Listener {
 
             // Detect button by material + display name
             if (clicked.getType() == Material.WRITABLE_BOOK && stripped.contains("邀请")) {
-                player.closeInventory();
-                player.sendMessage(TeamManager.component("&7使用 &f/team invite <玩家名> &7邀请玩家加入队伍。"));
+                teamManager.openInviteGUI(player, 0);
             } else if (clicked.getType() == Material.ENDER_PEARL && stripped.contains("召集")) {
                 player.closeInventory();
                 teamManager.summonTeam(player);
@@ -126,13 +125,68 @@ public class TeamListener implements Listener {
                 player.closeInventory();
                 teamManager.denySummon(player);
             }
+            return;
         }
+
+        // Handle invite player selection GUI
+        if (title.startsWith("§8邀请玩家")) {
+            event.setCancelled(true);
+
+            ItemStack clicked = event.getCurrentItem();
+            if (clicked == null || clicked.getType() == Material.AIR) return;
+
+            ItemMeta meta = clicked.getItemMeta();
+            if (meta == null || !meta.hasDisplayName()) return;
+
+            String stripped = org.bukkit.ChatColor.stripColor(meta.getDisplayName());
+            if (stripped == null) return;
+
+            // Click player head → invite
+            if (clicked.getType() == Material.PLAYER_HEAD) {
+                String targetName = stripped; // plain name
+                Player target = Bukkit.getPlayer(targetName);
+                if (target != null) {
+                    teamManager.invitePlayer(player, target);
+                    // Refresh the invite GUI
+                    int page = extractPage(title);
+                    teamManager.openInviteGUI(player, page);
+                }
+            }
+            // Previous page
+            else if (clicked.getType() == Material.ARROW && stripped.contains("上一页")) {
+                int page = extractPage(title) - 2; // current page is page+1, prev is page-1
+                teamManager.openInviteGUI(player, Math.max(0, page));
+            }
+            // Next page
+            else if (clicked.getType() == Material.ARROW && stripped.contains("下一页")) {
+                int page = extractPage(title); // current page (1-indexed), next is page
+                teamManager.openInviteGUI(player, page);
+            }
+            // Back button
+            else if (clicked.getType() == Material.BARRIER && stripped.contains("返回")) {
+                teamManager.openTeamGUI(player);
+            }
+            return;
+        }
+    }
+
+    /** Extract current page number (1-indexed) from title like "§8邀请玩家 §7(第2/3页)" */
+    private int extractPage(String title) {
+        try {
+            int start = title.indexOf("第") + 1;
+            int end = title.indexOf("/");
+            if (start > 0 && end > start) {
+                return Integer.parseInt(title.substring(start, end));
+            }
+        } catch (Exception ignored) {}
+        return 1;
     }
 
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onInventoryDrag(InventoryDragEvent event) {
         String title = event.getView().getTitle();
-        if (title.contains("§8队伍管理") || title.contains("§8队伍信息") || title.equals("§8队长召集")) {
+        if (title.contains("§8队伍管理") || title.contains("§8队伍信息")
+                || title.equals("§8队长召集") || title.startsWith("§8邀请玩家")) {
             event.setCancelled(true);
         }
     }
