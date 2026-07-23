@@ -637,8 +637,7 @@ public class TeamManager {
         if (isLeader) {
             gui.setItem(slot++, createMenuItem(Material.WRITABLE_BOOK,
                     "&a&l邀请玩家",
-                    "&7点击邀请玩家加入队伍",
-                    "&7命令: &f/t inv <玩家名>"));
+                    "&7点击浏览在线玩家并邀请"));
             gui.setItem(slot++, createMenuItem(Material.ENDER_PEARL,
                     "&b&l召集队员",
                     "&7点击召集所有在线队员",
