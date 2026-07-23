@@ -25,19 +25,19 @@
 
 | 命令 | 简写 | 说明 |
 |------|------|------|
-| `/team create` | `/t c` | 创建队伍 |
-| `/team invite <玩家>` | `/t inv` | 邀请玩家加入队伍（队长） |
-| `/team accept <玩家>` | `/t acc` | 接受邀请或入队申请 |
-| `/team deny <玩家>` | `/t den` | 拒绝邀请或入队申请 |
-| `/team join <队长>` | `/t j` | 申请加入队伍 |
-| `/team kick <玩家>` | `/t k` | 踢出队员（队长） |
-| `/team leave` | `/t l` | 离开队伍 |
-| `/team disband` | `/t dis` | 解散队伍（队长） |
-| `/team summon` | `/t s` | 召集所有队员传送（队长） |
+| `/team create` | `/team c` | 创建队伍 |
+| `/team invite <玩家>` | `/team inv` | 邀请玩家加入队伍（队长） |
+| `/team accept <玩家>` | `/team acc` | 接受邀请或入队申请 |
+| `/team deny <玩家>` | `/team den` | 拒绝邀请或入队申请 |
+| `/team join <队长>` | `/team j` | 申请加入队伍 |
+| `/team kick <玩家>` | `/team k` | 踢出队员（队长） |
+| `/team leave` | `/team l` | 离开队伍 |
+| `/team disband` | `/team dis` | 解散队伍（队长） |
+| `/team summon` | `/team s` | 召集所有队员传送（队长） |
 | `/team s a` | — | 接受召集传送 |
 | `/team s d` | — | 拒绝召集传送 |
-| `/team gui` | `/t g` | 打开队伍 GUI |
-| `/team info` | `/t i` | 查看队伍信息 |
+| `/team gui` | `/team g` | 打开队伍 GUI |
+| `/team info` | `/team i` | 查看队伍信息 |
 | `/team list` | — | 查看所有活跃队伍 |
 
 别名：`/pteam`、`/pt`
