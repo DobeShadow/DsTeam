@@ -1,0 +1,19 @@
+# TeamPlugin Configuration
+
+# Maximum team size (including leader)
+max-team-size: 6
+
+# Timeout in seconds for invitations and join requests
+invite-timeout: 60
+
+# Timeout in seconds for summon requests
+summon-timeout: 30
+
+# Prefix used in chat messages
+chat-prefix: "&8[&b组队&8] &7"
+
+# Whether to send title on summon
+summon-title: true
+
+# Whether to log team events to console
+console-log: true
