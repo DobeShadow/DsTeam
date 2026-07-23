@@ -226,16 +226,16 @@ public class TeamManager {
 
         leader.sendMessage(component(chatPrefix + "&a已向 &f" + target.getName() + " &a发送组队邀请！&7(&b" + inviteTimeout + "秒&7内有效)"));
 
-        // Send invite message to target with clickable + hoverable accept/deny buttons
+        // Send invite toast to target — no prefix, clean notification style
         String cmdBase = "/team";
         target.sendMessage(Component.empty());
         target.sendMessage(component("&8&m-----------------------------------"));
-        target.sendMessage(component(chatPrefix + "&f" + leader.getName() + " &e邀请你加入队伍！"));
+        target.sendMessage(component("&e⚔ &f" + leader.getName() + " &e邀请你加入队伍！"));
         target.sendMessage(Component.empty());
         target.sendMessage(
-                hoverButton("  &a[✔ 接受] ", "&a点击接受邀请", cmdBase + " accept " + leader.getName())
+                hoverButton("  &a[✔ 接受] ", "&a点击接受邀请", cmdBase + " acc " + leader.getName())
                         .append(component("&8│ "))
-                        .append(hoverButton("&c[✘ 拒绝]", "&c点击拒绝邀请", cmdBase + " deny " + leader.getName()))
+                        .append(hoverButton("&c[✘ 拒绝]", "&c点击拒绝邀请", cmdBase + " den " + leader.getName()))
         );
         target.sendMessage(component("&8&m-----------------------------------"));
 
@@ -330,16 +330,16 @@ public class TeamManager {
 
         player.sendMessage(component(chatPrefix + "&a已向队长 &f" + leader.getName() + " &a发送加入申请！"));
 
-        // Notify leader
+        // Notify leader — no prefix, clean notification
         String cmdBase = "/team";
         leader.sendMessage(Component.empty());
         leader.sendMessage(component("&8&m-----------------------------------"));
-        leader.sendMessage(component(chatPrefix + "&f" + player.getName() + " &e申请加入队伍！"));
+        leader.sendMessage(component("&e⚔ &f" + player.getName() + " &e申请加入队伍！"));
         leader.sendMessage(Component.empty());
         leader.sendMessage(
-                hoverButton("  &a[✔ 接受] ", "&a点击接受申请", cmdBase + " accept " + player.getName())
+                hoverButton("  &a[✔ 接受] ", "&a点击接受申请", cmdBase + " acc " + player.getName())
                         .append(component("&8│ "))
-                        .append(hoverButton("&c[✘ 拒绝]", "&c点击拒绝申请", cmdBase + " deny " + player.getName()))
+                        .append(hoverButton("&c[✘ 拒绝]", "&c点击拒绝申请", cmdBase + " den " + player.getName()))
         );
         leader.sendMessage(component("&8&m-----------------------------------"));
 
@@ -479,11 +479,11 @@ public class TeamManager {
                 );
             }
 
-            // Send chat message with hoverable buttons
+            // Send chat toast — no prefix, clean notification with hover buttons
             String cmdBase = "/team";
             member.sendMessage(Component.empty());
             member.sendMessage(component("&8&m-----------------------------------"));
-            member.sendMessage(component(chatPrefix + "&f" + leader.getName() + " &e召集所有队员传送！"));
+            member.sendMessage(component("&e⚔ &f" + leader.getName() + " &e召集所有队员传送！"));
             member.sendMessage(Component.empty());
             member.sendMessage(
                     hoverButton("  &a[✔ 接受召集] ", "&a点击传送到队长身边", cmdBase + " s a")
@@ -491,9 +491,6 @@ public class TeamManager {
                             .append(hoverButton("&c[✘ 拒绝召集]", "&c点击拒绝召集请求", cmdBase + " s d"))
             );
             member.sendMessage(component("&8&m-----------------------------------"));
-
-            // Open summon GUI for the member
-            openSummonGUI(member, leader);
         }
 
         // Auto-expire
@@ -600,8 +597,12 @@ public class TeamManager {
         Set<Player> onlineMembers = team.getOnlineMembers();
         Set<UUID> offlineMembers = team.getOfflineMembers();
 
-        int totalSlots = Math.max(9, ((onlineMembers.size() + offlineMembers.size() + 3) / 9 + 1) * 9);
-        totalSlots = Math.min(totalSlots, 54); // max 6 rows
+        // Calculate safe inventory size: member heads + buttons
+        int totalMembers = onlineMembers.size() + offlineMembers.size();
+        int buttonCount = isLeader ? 4 : 2; // invite/summon/disband + info, or leave + info
+        int neededSlots = totalMembers + buttonCount;
+        int rows = Math.max(1, (neededSlots + 8) / 9); // ceiling division
+        int totalSlots = Math.min(rows * 9, 54);
 
         String title = isLeader ? "§8队伍管理 §7(队长)" : "§8队伍信息";
         Inventory gui = Bukkit.createInventory(null, totalSlots, title);
@@ -632,76 +633,34 @@ public class TeamManager {
             gui.setItem(slot++, head);
         }
 
-        // Separator
-        slot = placeSeparators(gui, slot, totalSlots);
-
-        // Leader-only buttons
+        // Leader-only buttons (slot already checked against totalSlots above)
         if (isLeader) {
-            // Invite button
-            ItemStack inviteItem = createMenuItem(Material.WRITABLE_BOOK,
+            gui.setItem(slot++, createMenuItem(Material.WRITABLE_BOOK,
                     "&a&l邀请玩家",
                     "&7点击邀请玩家加入队伍",
-                    "&7命令: &f/team invite <玩家名>");
-            gui.setItem(slot++, inviteItem);
-
-            // Summon button
-            ItemStack summonItem = createMenuItem(Material.ENDER_PEARL,
+                    "&7命令: &f/t inv <玩家名>"));
+            gui.setItem(slot++, createMenuItem(Material.ENDER_PEARL,
                     "&b&l召集队员",
                     "&7点击召集所有在线队员",
-                    "&7传送至你的位置");
-            gui.setItem(slot++, summonItem);
-
-            // Disband button
-            ItemStack disbandItem = createMenuItem(Material.BARRIER,
+                    "&7传送至你的位置"));
+            gui.setItem(slot++, createMenuItem(Material.BARRIER,
                     "&c&l解散队伍",
                     "&7点击解散当前队伍",
-                    "&c⚠ 此操作不可撤销");
-            gui.setItem(slot++, disbandItem);
+                    "&c⚠ 此操作不可撤销"));
         } else {
-            // Leave button for non-leaders
-            ItemStack leaveItem = createMenuItem(Material.OAK_DOOR,
+            gui.setItem(slot++, createMenuItem(Material.OAK_DOOR,
                     "&e&l离开队伍",
-                    "&7点击离开当前队伍");
-            gui.setItem(slot++, leaveItem);
+                    "&7点击离开当前队伍"));
         }
 
         // Info item
-        ItemStack infoItem = createMenuItem(Material.PAPER,
+        gui.setItem(slot, createMenuItem(Material.PAPER,
                 "&b&l队伍信息",
                 "&7队长: &f" + team.getLeaderName(),
                 "&7人数: &b" + team.getSize() + "&7/&b" + maxTeamSize,
-                "&7创建时间: &f" + formatTime(team.getCreatedAt()));
-        gui.setItem(slot, infoItem);
+                "&7创建时间: &f" + formatTime(team.getCreatedAt())));
 
         player.openInventory(gui);
-    }
-
-    /**
-     * Open a summon accept/deny GUI for a team member.
-     */
-    public void openSummonGUI(Player member, Player leader) {
-        Inventory gui = Bukkit.createInventory(null, 9, "§8队长召集");
-
-        // Info item
-        ItemStack info = createMenuItem(Material.ENDER_PEARL,
-                "&b&l队长召集",
-                "&7队长 &f" + leader.getName() + " &7召集你传送！",
-                "&7请选择接受或拒绝：");
-        gui.setItem(3, info);
-
-        // Accept button
-        ItemStack accept = createMenuItem(Material.LIME_WOOL,
-                "&a&l✔ 接受召集",
-                "&7点击传送到队长身边");
-        gui.setItem(4, accept);
-
-        // Deny button
-        ItemStack deny = createMenuItem(Material.RED_WOOL,
-                "&c&l✘ 拒绝召集",
-                "&7点击拒绝召集请求");
-        gui.setItem(5, deny);
-
-        member.openInventory(gui);
     }
 
     // ==================== PvP Check ====================
@@ -805,29 +764,6 @@ public class TeamManager {
             head.setItemMeta(meta);
         }
         return head;
-    }
-
-    private int placeSeparators(Inventory gui, int startSlot, int totalSlots) {
-        // Place glass pane separators when needed
-        int rowStart = (startSlot / 9 + 1) * 9;
-        if (rowStart < totalSlots && startSlot % 9 != 0) {
-            // Fill current row to end with glass
-            for (int i = startSlot; i < rowStart && i < totalSlots; i++) {
-                gui.setItem(i, createGlassPane());
-            }
-            startSlot = rowStart;
-        }
-        return startSlot;
-    }
-
-    private ItemStack createGlassPane() {
-        ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
-        ItemMeta meta = glass.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(" ");
-            glass.setItemMeta(meta);
-        }
-        return glass;
     }
 
     private ItemStack createMenuItem(Material material, String name, String... loreLines) {
