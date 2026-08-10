@@ -1,8 +1,8 @@
-name: TeamPlugin
-version: 1.0.0
-main: com.minemc.teamplugin.TeamPlugin
+name: DsTeam
+version: 1.0.1
+main: com.dobeshadow.dsteam.DsTeam
 api-version: "1.21"
-author: MINEMC
+author: DobeShadow
 description: Lightweight temporary team system with PvP protection, summon, and GUI
 
 commands:
@@ -12,9 +12,9 @@ commands:
     aliases: [pteam, pt]
 
 permissions:
-  teamplugin.use:
+  dsteam.use:
     description: Allows using all team commands
     default: true
-  teamplugin.admin:
+  dsteam.admin:
     description: Admin bypass for team restrictions
     default: op

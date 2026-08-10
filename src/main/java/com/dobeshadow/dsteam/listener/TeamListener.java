@@ -1,8 +1,8 @@
-package com.minemc.teamplugin.listener;
+package com.dobeshadow.dsteam.listener;
 
-import com.minemc.teamplugin.TeamPlugin;
-import com.minemc.teamplugin.team.Team;
-import com.minemc.teamplugin.team.TeamManager;
+import com.dobeshadow.dsteam.DsTeam;
+import com.dobeshadow.dsteam.team.Team;
+import com.dobeshadow.dsteam.team.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -27,10 +27,10 @@ import org.bukkit.projectiles.ProjectileSource;
  */
 public class TeamListener implements Listener {
 
-    private final TeamPlugin plugin;
+    private final DsTeam plugin;
     private final TeamManager teamManager;
 
-    public TeamListener(TeamPlugin plugin, TeamManager teamManager) {
+    public TeamListener(DsTeam plugin, TeamManager teamManager) {
         this.plugin = plugin;
         this.teamManager = teamManager;
     }

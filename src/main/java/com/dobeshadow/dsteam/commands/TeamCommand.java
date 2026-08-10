@@ -1,8 +1,8 @@
-package com.minemc.teamplugin.commands;
+package com.dobeshadow.dsteam.commands;
 
-import com.minemc.teamplugin.TeamPlugin;
-import com.minemc.teamplugin.team.Team;
-import com.minemc.teamplugin.team.TeamManager;
+import com.dobeshadow.dsteam.DsTeam;
+import com.dobeshadow.dsteam.team.Team;
+import com.dobeshadow.dsteam.team.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,13 +35,13 @@ import java.util.stream.Collectors;
  */
 public class TeamCommand implements CommandExecutor, TabCompleter {
 
-    private final TeamPlugin plugin;
+    private final DsTeam plugin;
     private final TeamManager teamManager;
 
     private static final String NO_PERM = "&c你没有权限使用此命令！";
     private static final String PLAYER_ONLY = "&c此命令只能由玩家执行！";
 
-    public TeamCommand(TeamPlugin plugin, TeamManager teamManager) {
+    public TeamCommand(DsTeam plugin, TeamManager teamManager) {
         this.plugin = plugin;
         this.teamManager = teamManager;
     }
@@ -161,7 +161,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -188,7 +188,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -216,7 +216,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -251,7 +251,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -284,7 +284,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -312,7 +312,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -350,7 +350,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -370,7 +370,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -389,7 +389,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -418,7 +418,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
             sendMsg(sender, TeamManager.colorize(PLAYER_ONLY));
             return true;
         }
-        if (!player.hasPermission("teamplugin.use")) {
+        if (!player.hasPermission("dsteam.use")) {
             sendMsg(player, TeamManager.colorize(NO_PERM));
             return true;
         }
@@ -483,7 +483,7 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
 
     private void sendHelp(CommandSender sender) {
         sendMsg(sender, TeamManager.colorize("&8&m-----------------------------------"));
-        sendMsg(sender, TeamManager.colorize("&b&lTeamPlugin &7- 组队系统帮助 &8(括号内为简写)"));
+        sendMsg(sender, TeamManager.colorize("&b&lDsTeam &7- 组队系统帮助 &8(括号内为简写)"));
         sendMsg(sender, TeamManager.colorize("&f/team create &8(c)       &7- 创建队伍"));
         sendMsg(sender, TeamManager.colorize("&f/team invite &8(inv)  <玩家> &7- 邀请玩家加入 &8(队长)"));
         sendMsg(sender, TeamManager.colorize("&f/team accept &8(acc) <玩家> &7- 接受邀请/加入申请"));

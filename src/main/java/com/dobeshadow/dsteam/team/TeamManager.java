@@ -1,6 +1,6 @@
-package com.minemc.teamplugin.team;
+package com.dobeshadow.dsteam.team;
 
-import com.minemc.teamplugin.TeamPlugin;
+import com.dobeshadow.dsteam.DsTeam;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -24,7 +24,7 @@ import java.util.logging.Level;
  */
 public class TeamManager {
 
-    private final TeamPlugin plugin;
+    private final DsTeam plugin;
 
     // player UUID -> Team (only one team per player)
     private final Map<UUID, Team> playerTeamMap = new ConcurrentHashMap<>();
@@ -46,7 +46,7 @@ public class TeamManager {
     private boolean summonTitle;
     private boolean consoleLog;
 
-    public TeamManager(TeamPlugin plugin) {
+    public TeamManager(DsTeam plugin) {
         this.plugin = plugin;
     }
 

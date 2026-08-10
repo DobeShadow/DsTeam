@@ -1,12 +1,12 @@
-package com.minemc.teamplugin;
+package com.dobeshadow.dsteam;
 
-import com.minemc.teamplugin.commands.TeamCommand;
-import com.minemc.teamplugin.listener.TeamListener;
-import com.minemc.teamplugin.team.TeamManager;
+import com.dobeshadow.dsteam.commands.TeamCommand;
+import com.dobeshadow.dsteam.listener.TeamListener;
+import com.dobeshadow.dsteam.team.TeamManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * TeamPlugin - Lightweight temporary team plugin for Paper 1.21+
+ * DsTeam - Lightweight temporary team plugin for Paper 1.21+
  *
  * Features:
  * - Temporary team creation and disbanding
@@ -17,9 +17,9 @@ import org.bukkit.plugin.java.JavaPlugin;
  * - Kick and leave functionality
  * - Lightweight, in-memory only, no persistence
  */
-public final class TeamPlugin extends JavaPlugin {
+public final class DsTeam extends JavaPlugin {
 
-    private static TeamPlugin instance;
+    private static DsTeam instance;
     private TeamManager teamManager;
 
     @Override
@@ -43,7 +43,7 @@ public final class TeamPlugin extends JavaPlugin {
             getLogger().severe("Command 'team' not found in plugin.yml! Check your configuration.");
         }
 
-        getLogger().info("TeamPlugin v" + getPluginMeta().getVersion() + " 已启动！");
+        getLogger().info("DsTeam v" + getPluginMeta().getVersion() + " 已启动！");
     }
 
     @Override
@@ -52,12 +52,12 @@ public final class TeamPlugin extends JavaPlugin {
             teamManager.cleanup();
         }
         instance = null;
-        getLogger().info("TeamPlugin 已卸载！");
+        getLogger().info("DsTeam 已卸载！");
     }
 
     // ---- Static accessors ----
 
-    public static TeamPlugin getInstance() {
+    public static DsTeam getInstance() {
         return instance;
     }
 

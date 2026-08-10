@@ -1,4 +1,4 @@
-# TeamPlugin
+# DsTeam
 
 轻量级 Minecraft 临时组队插件，适用于 Paper 1.21+。纯内存运行，无数据库依赖。
 
@@ -69,15 +69,15 @@ console-log: true                      # 控制台记录组队日志
 
 ```bash
 mvn package
-# 将 target/TeamPlugin-1.0.0.jar 放入 plugins/ 目录
+# 将 target/DsTeam-1.0.1.jar 放入 plugins/ 目录
 ```
 
 ## 权限
 
 | 权限节点 | 默认 | 说明 |
 |----------|------|------|
-| `teamplugin.use` | 所有人 | 使用组队命令 |
-| `teamplugin.admin` | OP | 管理员（预留） |
+| `dsteam.use` | 所有人 | 使用组队命令 |
+| `dsteam.admin` | OP | 管理员（预留） |
 
 ## 构建
 
