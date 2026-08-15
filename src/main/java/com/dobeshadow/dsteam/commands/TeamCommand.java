@@ -482,22 +482,22 @@ public class TeamCommand implements CommandExecutor, TabCompleter {
     // ==================== Help ====================
 
     private void sendHelp(CommandSender sender) {
-        sendMsg(sender, TeamManager.colorize("&8&m-----------------------------------"));
-        sendMsg(sender, TeamManager.colorize("&b&lDsTeam &7- 组队系统帮助 &8(括号内为简写)"));
-        sendMsg(sender, TeamManager.colorize("&f/team create &8(c)       &7- 创建队伍"));
-        sendMsg(sender, TeamManager.colorize("&f/team invite &8(inv)  <玩家> &7- 邀请玩家加入 &8(队长)"));
-        sendMsg(sender, TeamManager.colorize("&f/team accept &8(acc) <玩家> &7- 接受邀请/加入申请"));
-        sendMsg(sender, TeamManager.colorize("&f/team deny &8(den)   <玩家> &7- 拒绝邀请/加入申请"));
-        sendMsg(sender, TeamManager.colorize("&f/team join &8(j)    <队长> &7- 申请加入队伍"));
-        sendMsg(sender, TeamManager.colorize("&f/team kick &8(k)    <玩家> &7- 踢出队员 &8(队长)"));
-        sendMsg(sender, TeamManager.colorize("&f/team leave &8(l)          &7- 离开队伍"));
-        sendMsg(sender, TeamManager.colorize("&f/team disband &8(dis)      &7- 解散队伍 &8(队长)"));
-        sendMsg(sender, TeamManager.colorize("&f/team summon &8(s)         &7- 召集队员 &8(队长)"));
-        sendMsg(sender, TeamManager.colorize("&f/team s a / s d            &7- 接受/拒绝召集"));
-        sendMsg(sender, TeamManager.colorize("&f/team gui &8(g)            &7- 打开队伍界面"));
-        sendMsg(sender, TeamManager.colorize("&f/team info &8(i)           &7- 查看队伍信息"));
-        sendMsg(sender, TeamManager.colorize("&f/team list                 &7- 查看所有活跃队伍"));
-        sendMsg(sender, TeamManager.colorize("&8&m-----------------------------------"));
+        sendMsg(sender, TeamManager.colorize("  &8Ds&fTeam &8- &7组队系统"));
+        sendMsg(sender, TeamManager.colorize("  &7命令: &f/team &8[...]"));
+        sendMsg(sender, TeamManager.colorize("  &7参数:"));
+        sendMsg(sender, TeamManager.colorize("    &8- &fcreate &8(c)   &7创建队伍"));
+        sendMsg(sender, TeamManager.colorize("    &8- &finvite <玩家> &8(inv)   &7邀请玩家加入 &8(队长)"));
+        sendMsg(sender, TeamManager.colorize("    &8- &faccept <玩家> &8(acc)   &7接受邀请/加入申请"));
+        sendMsg(sender, TeamManager.colorize("    &8- &fdeny <玩家> &8(den)   &7拒绝邀请/加入申请"));
+        sendMsg(sender, TeamManager.colorize("    &8- &fjoin <队长> &8(j)   &7申请加入队伍"));
+        sendMsg(sender, TeamManager.colorize("    &8- &fkick <玩家> &8(k)   &7踢出队员 &8(队长)"));
+        sendMsg(sender, TeamManager.colorize("    &8- &fleave &8(l)   &7离开队伍"));
+        sendMsg(sender, TeamManager.colorize("    &8- &fdisband &8(dis)   &7解散队伍 &8(队长)"));
+        sendMsg(sender, TeamManager.colorize("    &8- &fsummon &8(s)   &7召集队员 &8(队长)"));
+        sendMsg(sender, TeamManager.colorize("    &8- &fsummon accept/deny   &7接受/拒绝召集"));
+        sendMsg(sender, TeamManager.colorize("    &8- &fgui &8(g)   &7打开队伍界面"));
+        sendMsg(sender, TeamManager.colorize("    &8- &finfo &8(i)   &7查看队伍信息"));
+        sendMsg(sender, TeamManager.colorize("    &8- &flist   &7查看所有活跃队伍"));
     }
 
     // ==================== Utilities ====================
